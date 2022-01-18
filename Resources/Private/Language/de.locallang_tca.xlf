@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-05-05T06:25:54Z" product-name="ce_history" target-language="de">
+		<header/>
+		<body>
+			<trans-unit id="tx_ce_history.title">
+				<target>History</target>
+			</trans-unit>
+			<trans-unit id="tx_ce_history.description">
+				<target>History Modul</target>
+			</trans-unit>
+
+			<trans-unit id="tx_xo_domain_model_elements.record_type.default">
+				<target>Default</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

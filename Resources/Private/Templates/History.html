@@ -1,0 +1,14 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:xo="http://typo3.org/ns/Ps/Xo/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Default" />
+	<f:section name="Main">
+		<f:spaceless>
+			<f:render section="Variant-{data.tx_xo_variant}" arguments="{_all}" />
+		</f:spaceless>
+	</f:section>
+
+	<f:section name="Variant-0">
+		<f:if condition="{records}">
+			<f:render partial="History/Records" section="Main" arguments="{_all}" />
+		</f:if>
+	</f:section>
+</html>

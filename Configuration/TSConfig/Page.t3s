@@ -1,0 +1,16 @@
+mod.wizards.newContentElement.wizardItems {
+	common {
+		elements {
+			ce_history {
+				iconIdentifier = ps14-content-history
+				title = LLL:EXT:ce_history/Resources/Private/Language/locallang_tca.xlf:tx_ce_history.title
+				description = LLL:EXT:ce_history/Resources/Private/Language/locallang_tca.xlf:tx_ce_history.description
+				tt_content_defValues {
+					CType = ce_history
+				}
+			}
+		}
+
+		show := addToList(ce_history)
+	}
+}
