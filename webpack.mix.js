@@ -14,6 +14,7 @@ mix.options({
 	processCssUrls: false
 });
 
+mix.js('Resources/Public/Js/history.js', 'assets/js/modules/history.js');
 mix.sass('Resources/Public/Sass/history.scss', 'assets/css/modules/history.css')
 	.options({
 		postCss: [
@@ -26,5 +27,6 @@ mix.sass('Resources/Public/Sass/history.scss', 'assets/css/modules/history.css')
 );
 
 if(mix.inProduction() === true) {
+	mix.minify(['../../../assets/js/modules/history.js']);
 	mix.minify(['../../../assets/css/modules/history.css']);
 }

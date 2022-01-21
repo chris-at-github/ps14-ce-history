@@ -22,6 +22,53 @@ $ce-history--layout-default: true !default;
 @include stylesheet-context($stylesheet-context-screen) {
 	@if($ce-history--use-css) {
 
+		.ce-history {
+			& {
+				margin: 800px 0 0 0;
+			}
+
+			.ce-frame--inner {
+				position: relative;
+				padding: 0 0 0 0;
+			}
+
+			.watch {
+				content: '';
+				position: absolute;
+				background: green;
+				top: 0; bottom: -100px;
+				width: 100%;
+				z-index: -1;
+			}
+
+			.indicator {
+				position: absolute;
+				top: 0; left: 100px;
+				width: 10px;
+				height: 0;
+				background: red;
+				transition: height 0.1s;
+			}
+
+			.ce-frame--inner {
+				ul {
+					list-style: none;
+					margin: 0;
+					padding: 0;
+				}
+
+				li {
+					background: gold;
+					height: 300px;
+				}
+
+				li:last-child {
+					background: goldenrod;
+					height: 600px;
+				}
+			}
+		}
+
 		// -------------------------------------------------------------------------------------------------------------------
 		// >= 768px
 		@include media-breakpoint-up(md) {

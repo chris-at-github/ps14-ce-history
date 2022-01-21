@@ -1,5 +1,7 @@
 <div xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:xo="http://typo3.org/ns/Ps/Xo/ViewHelpers" data-namespace-typo3-fluid="true">
 	<f:section name="Main">
+		<div class="indicator"></div>
+		<div class="watch"></div>
 		<ul>
 			<f:for each="{records}" as="record" iteration="iterator">
 				<f:render section="Item" arguments="{data: record.data, iterator: iterator}" />
@@ -8,8 +10,6 @@
 	</f:section>
 
 	<f:section name="Item">
-		<li>
-			<f:debug>{record}</f:debug>
-		</li>
+		<li>{data.uid}</li>
 	</f:section>
 </div>

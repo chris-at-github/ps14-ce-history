@@ -39,9 +39,9 @@ tt_content {
 					10 = /assets/css/modules/history.css
 				}
 
-#				importJs {
-#					10 = /assets/js/components/collapse.js
-#				}
+				importJs {
+					10 = /assets/js/modules/history.js
+				}
 			}
 		}
 	}
