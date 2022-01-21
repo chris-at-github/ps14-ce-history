@@ -29,7 +29,6 @@ $ce-history--layout-default: true !default;
 
 			.ce-frame--inner {
 				position: relative;
-				padding: 0 0 0 0;
 			}
 
 			.watch {
@@ -43,8 +42,11 @@ $ce-history--layout-default: true !default;
 
 			.indicator {
 				position: absolute;
-				top: 0; left: 100px;
-				width: 10px;
+				//top: 30px;
+				top: 0;
+				left: 100px;
+				z-index: 10;
+				width: 7px;
 				height: 0;
 				background: red;
 				transition: height 0.1s;
@@ -58,13 +60,47 @@ $ce-history--layout-default: true !default;
 				}
 
 				li {
+					position: relative;
 					background: gold;
 					height: 300px;
+					z-index: 5;
+
+					&:before {
+						content: '';
+						width: 21px;
+						height: 21px;
+						background: red;
+						position: absolute;
+						top: 30px; left: 93px;
+						transform: scale(0);
+						transition: transform $transition-duration;
+					}
 				}
 
-				li:last-child {
-					background: goldenrod;
-					height: 600px;
+				li.active {
+					background: palegoldenrod !important;
+
+					&:before {
+						transform: scale(1);
+					}
+				}
+
+				li:nth-child(2) {
+					background: darkgoldenrod;
+					height: 234px;
+				}
+
+				li:nth-child(3) {
+					height: 286px;
+				}
+
+				li:nth-child(4) {
+					background: darkgoldenrod;
+					height: 465px;
+				}
+
+				li:nth-child(5) {
+					height: 97px;
 				}
 			}
 		}
