@@ -6,7 +6,7 @@
 		let offset = 300;
 
 		let node = document.querySelector('.ce-history');
-		let container = node.querySelector('ul')
+		let container = node.querySelector('.ce-history__container')
 		let indicator = node.querySelector('.ce-history__indicator');
 
 		let lastKnownScrollPosition = 0;

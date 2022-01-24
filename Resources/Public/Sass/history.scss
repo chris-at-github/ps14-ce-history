@@ -21,77 +21,27 @@ $ce-history--layout-default: true !default;
 // CSS
 @include stylesheet-context($stylesheet-context-screen) {
 	@if($ce-history--use-css) {
-
 		.ce-history {
-			& {
-				margin: 800px 0 0 0;
-			}
-
 			.ce-frame--inner {
 				position: relative;
 			}
+		}
 
-			.ce-history__indicator {
-				position: absolute;
-				top: 23px; left: 18px;
-				z-index: 10;
-				width: 4px;
-				height: 0;
-				background: $theme-color-primary;
-				transition: height 0.1s;
-			}
+		.ce-history__indicator {
+			position: absolute;
+			top: 23px;
+			left: 18px;
+			z-index: 10;
+			width: 4px;
+			height: 0;
+			background: $theme-color-primary;
+			transition: height 0.1s;
+		}
 
-			.ce-frame--inner {
-				ul {
-					list-style: none;
-					margin: 0;
-					padding: 0;
-				}
-
-				//li {
-				//	position: relative;
-				//	background: gold;
-				//	height: 300px;
-				//	z-index: 5;
-				//
-				//	&:before {
-				//		content: '';
-				//		width: 21px;
-				//		height: 21px;
-				//		background: red;
-				//		position: absolute;
-				//		top: 5px; left: 23px;
-				//		transform: scale(0);
-				//		transition: transform $transition-duration;
-				//	}
-				//}
-
-				li.active {
-					//background: palegoldenrod !important;
-
-					&:before {
-						transform: scale(1);
-					}
-				}
-
-				//li:nth-child(2) {
-				//	background: darkgoldenrod;
-				//	height: 234px;
-				//}
-				//
-				//li:nth-child(3) {
-				//	height: 286px;
-				//}
-				//
-				//li:nth-child(4) {
-				//	background: darkgoldenrod;
-				//	height: 465px;
-				//}
-				//
-				//li:nth-child(5) {
-				//	height: 97px;
-				//}
-			}
+		.ce-history__container {
+			list-style: none;
+			margin: 0;
+			padding: 0;
 		}
 
 		.ce-history-item__date {
