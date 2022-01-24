@@ -1,7 +1,6 @@
 <div xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:xo="http://typo3.org/ns/Ps/Xo/ViewHelpers" data-namespace-typo3-fluid="true">
 	<f:section name="Main">
-		<div class="indicator"></div>
-		<div class="watch"></div>
+		<div class="ce-history__indicator"></div>
 		<ul>
 			<f:for each="{records}" as="record" iteration="iterator">
 				<f:render section="Item" arguments="{data: record.data, iterator: iterator}" />
@@ -10,6 +9,19 @@
 	</f:section>
 
 	<f:section name="Item">
-		<li>{data.uid}</li>
+		<li class="ce-history-item">
+			<div class="ce-history-item__date">{data.uid}</div>
+			<div class="ce-history-item__content">
+				<f:if condition="{data.title}">
+					<header class="ce-history-item__title">
+						<f:render partial="Header/Header" arguments="{header: data.title, layout: data.title_type}" />
+					</header>
+				</f:if>
+
+				<f:if condition="{data.description}">
+					<f:format.html>{data.description}</f:format.html>
+				</f:if>
+			</div>
+		</li>
 	</f:section>
 </div>

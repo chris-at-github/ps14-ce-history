@@ -3,14 +3,18 @@
 
 	xna.on('documentLoaded', function() {
 
+		let offset = 300;
+
 		let node = document.querySelector('.ce-history');
-		let container = node.querySelector('ul');
+		let container = node.querySelector('ul')
+		let indicator = node.querySelector('.ce-history__indicator');
 
 		let lastKnownScrollPosition = 0;
 		let ticking = false;
 
 		let containerTop = (window.scrollY + container.getBoundingClientRect().top) - window.outerHeight;
-		let indicator = node.querySelector('.indicator');
+		let stepsTop = [];
+
 		let maxHeight = container.getBoundingClientRect().height;
 
 		let steps = container.querySelectorAll('li');
@@ -19,15 +23,15 @@
 		let lastChildHeight = steps[steps.length - 1].offsetHeight;
 		maxHeight = maxHeight - lastChildHeight;
 
-		//console.log();
-		// console.log(window.outerHeight);
-
-		// let spy = function() {
-		//
-		// };
+		steps.forEach(function(step, index) {
+			stepsTop.push({
+				node: step,
+				top:  (window.scrollY + step.getBoundingClientRect().top) - window.outerHeight
+			});
+		});
 
 		let scrollOnContainer = function() {
-			let containerScrollPosition = lastKnownScrollPosition - containerTop;
+			let containerScrollPosition = (lastKnownScrollPosition - containerTop) - offset;
 
 			if(containerScrollPosition > maxHeight) {
 				containerScrollPosition = maxHeight;
@@ -37,7 +41,11 @@
 				indicator.style.height = Math.floor(containerScrollPosition)  + 'px';
 			}
 
-
+			stepsTop.forEach(function(stepTop) {
+				if((lastKnownScrollPosition- offset) >= stepTop.top) {
+					stepTop.node.classList.add('ce-history-item--visible');
+				}
+			});
 		}
 
 
