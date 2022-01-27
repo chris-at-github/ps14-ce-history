@@ -35,12 +35,17 @@ $GLOBALS['TCA']['tt_content']['types']['ce_history']['columnsOverrides']['tx_xo_
 				],
 				'default' => 'ce_history_default'
 			]
+		],
+		'media' => [
+			'config' => [
+				'maxitems' => 3
+			]
 		]
 	],
 	'types' => [
 		'ce_history_default' => [
 			'showitem' => '
-				l10n_diffsource, record_type, --palette--;;header, description,
+				l10n_diffsource, record_type, tx_ce_history_date, --palette--;;header, description, media,
 				--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.access,
 				--palette--;;visibility,
 				--palette--;;access',
