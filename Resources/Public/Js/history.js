@@ -52,6 +52,9 @@
 
 			let onInitialize = function() {
 
+				// initiale Hoehe berechnen
+				scrollPosition = window.scrollY;
+
 				// direkt rendern
 				render();
 

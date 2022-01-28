@@ -79,6 +79,22 @@ $ce-history--layout-default: true !default;
 			}
 		}
 
+		.ce-history-item__media-item {
+			& {
+				margin: rem(10px 0 0 0);
+			}
+
+			img {
+				@extend %image-responsive;
+			}
+		}
+
+		.ce-history-item__media {
+			margin: rem(10px 0 0 0);
+			padding: 0;
+			list-style: none;
+		}
+
 		.ce-history-item {
 			& {
 				position: relative;
@@ -112,6 +128,18 @@ $ce-history--layout-default: true !default;
 			.ce-history-item__date, .ce-history-item__content {
 				transform: translate(0, 0);
 				opacity: 1;
+			}
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------
+		// >= 576px
+		@include media-breakpoint-up(sm) {
+			.ce-history-item__media {
+				display: flex;
+			}
+
+			.ce-history-item__media-item {
+				margin: rem(10px 10px 0 0);
 			}
 		}
 

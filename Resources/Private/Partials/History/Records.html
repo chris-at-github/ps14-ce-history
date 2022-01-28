@@ -3,7 +3,7 @@
 		<div class="ce-history__indicator"></div>
 		<ul class="ce-history__container">
 			<f:for each="{records}" as="record" iteration="iterator">
-				<f:render section="Item" arguments="{data: record.data, iterator: iterator}" />
+				<f:render section="Item" arguments="{data: record.data, record: record, iterator: iterator}" />
 			</f:for>
 		</ul>
 	</f:section>
@@ -21,7 +21,28 @@
 				<f:if condition="{data.description}">
 					<f:format.html>{data.description}</f:format.html>
 				</f:if>
+
+				<f:if condition="{record.media}">
+					<ul class="ce-history-item__media">
+						<f:for each="{record.media}" as="media">
+							<f:render section="Media" arguments="{media: media, settings: settings.modules.history.media}" />
+						</f:for>
+					</ul>
+				</f:if>
 			</div>
+		</li>
+	</f:section>
+
+	<f:section name="Media">
+		<li class="ce-history-item__media-item">
+			<f:render partial="Components/Media" section="Picture" arguments="{
+			file: media,
+			image: {
+				maxHeight: settings.maxHeight,
+				cropVariant: settings.cropVariant
+			},
+			sizes: settings.mediaQueries
+		}" />
 		</li>
 	</f:section>
 </div>
