@@ -3,66 +3,184 @@
 
 	xna.on('documentLoaded', function() {
 
-		let offset = 300;
-
-		let node = document.querySelector('.ce-history');
-		let container = node.querySelector('.ce-history__container')
-		let indicator = node.querySelector('.ce-history__indicator');
-
-		let lastKnownScrollPosition = 0;
-		let ticking = false;
-
-		let containerTop = (window.scrollY + container.getBoundingClientRect().top) - window.outerHeight;
-		let stepsTop = [];
-
-		let maxHeight = container.getBoundingClientRect().height;
-
-		let steps = container.querySelectorAll('li');
-
-		// maximal bis zum letzten Element scrollen
-		let lastChildHeight = steps[steps.length - 1].offsetHeight;
-		maxHeight = maxHeight - lastChildHeight;
-
-		steps.forEach(function(step, index) {
-			stepsTop.push({
-				node: step,
-				top:  (window.scrollY + step.getBoundingClientRect().top) - window.outerHeight
-			});
-		});
-
-		let scrollOnContainer = function() {
-			let containerScrollPosition = (lastKnownScrollPosition - containerTop) - offset;
-
-			if(containerScrollPosition > maxHeight) {
-				containerScrollPosition = maxHeight;
-			}
-
-			if(containerScrollPosition <= maxHeight) {
-				indicator.style.height = Math.floor(containerScrollPosition)  + 'px';
-			}
-
-			stepsTop.forEach(function(stepTop) {
-				if((lastKnownScrollPosition- offset) >= stepTop.top) {
-					stepTop.node.classList.add('ce-history-item--visible');
-				}
-			});
+		let getContainerPositionTop = function(container) {
+			return (window.scrollY + container.getBoundingClientRect().top) - window.outerHeight;
 		}
 
+		let getIndicatorMaxHeight = function(container, items) {
+			let indicatorMaxHeight = container.getBoundingClientRect().height;
 
-		window.addEventListener('scroll', function() {
-			lastKnownScrollPosition = window.scrollY;
+			// maximal bis zum letzten Element scrollen
+			indicatorMaxHeight = indicatorMaxHeight - items[items.length - 1].offsetHeight;
 
-			if(ticking === false) {
-				window.requestAnimationFrame(function() {
-					if(lastKnownScrollPosition >= containerTop) {
-						scrollOnContainer();
-					}
-					ticking = false;
+			return indicatorMaxHeight;
+		}
+
+		let getItemsPositionTop = function(container, items) {
+			let itemsPositionTop = [];
+
+			items.forEach(function(item, index) {
+				itemsPositionTop.push({
+					node: item,
+					top:  (window.scrollY + item.getBoundingClientRect().top) - window.outerHeight
 				});
+			});
 
-				ticking = true;
+			return itemsPositionTop;
+		}
+
+		document.querySelectorAll('.ce-history').forEach(function(node, index) {
+
+			let offset = 300,
+				container = node.querySelector('.ce-history__container'),
+				indicator = node.querySelector('.ce-history__indicator'),
+				scrollPosition = 0,
+				ticking = false,
+				items = container.querySelectorAll('.ce-history-item');
+
+			if(items.length === 0) {
+				return;
 			}
+
+			// beim Laden im Viewport keine Animation
+			node.classList.add('ce-history--static');
+
+			let containerPositionTop = getContainerPositionTop(container);
+			let itemsPositionTop = getItemsPositionTop(container, items);
+			let indicatorMaxHeight = getIndicatorMaxHeight(container, items);
+
+			let onScrolling = function() {
+				scrollPosition = window.scrollY;
+
+				if(ticking === false) {
+					window.requestAnimationFrame(function() {
+						if(scrollPosition >= containerPositionTop) {
+							render();
+						}
+
+						ticking = false;
+					});
+
+					ticking = true;
+				}
+			};
+
+			let onResize = function() {
+				if(ticking === false) {
+					window.requestAnimationFrame(function() {
+
+						// Positionen und Hoehen neu berechnen
+						containerPositionTop = getContainerPositionTop(container);
+						itemsPositionTop = getItemsPositionTop(container, items);
+						indicatorMaxHeight = getIndicatorMaxHeight(container, items);
+
+						// Sichtbarkeit der Eintraege zuruecksetzen
+						items.forEach(function(item, index) {
+							item.classList.remove('ce-history-item--visible');
+						});
+
+						// Darstellung neu berechnen
+						render();
+
+						ticking = false;
+					});
+
+					ticking = true;
+				}
+			};
+
+			let render = function() {
+				let containerScrollPosition = (scrollPosition - containerPositionTop) - offset;
+
+				if(containerScrollPosition > indicatorMaxHeight) {
+					containerScrollPosition = indicatorMaxHeight;
+				}
+
+				if(containerScrollPosition <= indicatorMaxHeight) {
+					indicator.style.height = Math.floor(containerScrollPosition)  + 'px';
+				}
+
+				itemsPositionTop.forEach(function(itemPositionTop) {
+					if((scrollPosition- offset) >= itemPositionTop.top) {
+						itemPositionTop.node.classList.add('ce-history-item--visible');
+					}
+				});
+			};
+
+			// 1. Aufruf direkt nach dem Laden des DOM
+			render();
+
+			// -> nun wieder animieren wenn die Elemente in den Viewport kommen
+			setTimeout(function() {
+				node.classList.remove('ce-history--static');
+			}, 100);
+
+			// 2. beim Scrollen
+			window.addEventListener('scroll', onScrolling);
+
+			// 3. beim Veraendern der Seitengroesse
+			window.addEventListener('resize', onResize);
 		});
+
+		// let offset = 300;
+		//
+		// let node = document.querySelector('.ce-history');
+		// let container = node.querySelector('.ce-history__container');
+		// let indicator = node.querySelector('.ce-history__indicator');
+		//
+		// let lastKnownScrollPosition = 0;
+		// let ticking = false;
+		//
+		// let containerTop = (window.scrollY + container.getBoundingClientRect().top) - window.outerHeight;
+		// let stepsTop = [];
+		//
+		// let maxHeight = container.getBoundingClientRect().height;
+		//
+		// let steps = container.querySelectorAll('li');
+		//
+		// // maximal bis zum letzten Element scrollen
+		// let lastChildHeight = steps[steps.length - 1].offsetHeight;
+		// maxHeight = maxHeight - lastChildHeight;
+		//
+		// steps.forEach(function(step, index) {
+		// 	stepsTop.push({
+		// 		node: step,
+		// 		top:  (window.scrollY + step.getBoundingClientRect().top) - window.outerHeight
+		// 	});
+		// });
+		//
+		// let scrollOnContainer = function() {
+		// 	let containerScrollPosition = (lastKnownScrollPosition - containerTop) - offset;
+		//
+		// 	if(containerScrollPosition > maxHeight) {
+		// 		containerScrollPosition = maxHeight;
+		// 	}
+		//
+		// 	if(containerScrollPosition <= maxHeight) {
+		// 		indicator.style.height = Math.floor(containerScrollPosition)  + 'px';
+		// 	}
+		//
+		// 	stepsTop.forEach(function(stepTop) {
+		// 		if((lastKnownScrollPosition- offset) >= stepTop.top) {
+		// 			stepTop.node.classList.add('ce-history-item--visible');
+		// 		}
+		// 	});
+		// }
+
+		// window.addEventListener('scroll', function() {
+		// 	lastKnownScrollPosition = window.scrollY;
+		//
+		// 	if(ticking === false) {
+		// 		window.requestAnimationFrame(function() {
+		// 			if(lastKnownScrollPosition >= containerTop) {
+		// 				scrollOnContainer();
+		// 			}
+		// 			ticking = false;
+		// 		});
+		//
+		// 		ticking = true;
+		// 	}
+		// });
 
 
 

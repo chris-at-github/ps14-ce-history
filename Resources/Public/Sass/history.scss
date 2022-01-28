@@ -27,6 +27,12 @@ $ce-history--layout-default: true !default;
 			}
 		}
 
+		.ce-history--static {
+			*, *:before {
+				transition-duration: 0s !important;
+			}
+		}
+
 		.ce-history__indicator {
 			position: absolute;
 			top: 23px;
