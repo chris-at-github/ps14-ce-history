@@ -31,27 +31,44 @@
 
 		document.querySelectorAll('.ce-history').forEach(function(node, index) {
 
-			let offset = 300,
+			let offset = 0,
 				container = node.querySelector('.ce-history__container'),
 				indicator = node.querySelector('.ce-history__indicator'),
 				scrollPosition = 0,
+				containerScrollPositionBefore = 0,
 				ticking = false,
 				items = container.querySelectorAll('.ce-history-item');
+
+			// beim Laden im Viewport keine Animation
+			node.classList.add('ce-history--static');
 
 			if(items.length === 0) {
 				return;
 			}
 
-			// beim Laden im Viewport keine Animation
-			node.classList.add('ce-history--static');
-
 			let containerPositionTop = getContainerPositionTop(container);
 			let itemsPositionTop = getItemsPositionTop(container, items);
 			let indicatorMaxHeight = getIndicatorMaxHeight(container, items);
 
+			let onInitialize = function() {
+
+				// direkt rendern
+				render();
+
+				setTimeout(function() {
+
+					// Offset wieder an Viewport anpassen
+					offset = 300;
+
+					// nun wieder animieren wenn die Elemente in den Viewport kommen
+					node.classList.remove('ce-history--static');
+				}, 100);
+			}
+
 			let onScrolling = function() {
 				scrollPosition = window.scrollY;
 
+				// nur beim runterscrollen rendern
 				if(ticking === false) {
 					window.requestAnimationFrame(function() {
 						if(scrollPosition >= containerPositionTop) {
@@ -70,6 +87,7 @@
 					window.requestAnimationFrame(function() {
 
 						// Positionen und Hoehen neu berechnen
+						containerScrollPositionBefore = 0;
 						containerPositionTop = getContainerPositionTop(container);
 						itemsPositionTop = getItemsPositionTop(container, items);
 						indicatorMaxHeight = getIndicatorMaxHeight(container, items);
@@ -92,28 +110,29 @@
 			let render = function() {
 				let containerScrollPosition = (scrollPosition - containerPositionTop) - offset;
 
+				// keine Veraenderungen mehr wenn nach oben gescrollt wird
+				if(containerScrollPositionBefore >= containerScrollPosition) {
+					return;
+				}
+
 				if(containerScrollPosition > indicatorMaxHeight) {
 					containerScrollPosition = indicatorMaxHeight;
 				}
 
 				if(containerScrollPosition <= indicatorMaxHeight) {
+					containerScrollPositionBefore = Math.floor(containerScrollPosition);
 					indicator.style.height = Math.floor(containerScrollPosition)  + 'px';
 				}
 
 				itemsPositionTop.forEach(function(itemPositionTop) {
-					if((scrollPosition- offset) >= itemPositionTop.top) {
+					if((scrollPosition - offset) >= itemPositionTop.top) {
 						itemPositionTop.node.classList.add('ce-history-item--visible');
 					}
 				});
 			};
 
 			// 1. Aufruf direkt nach dem Laden des DOM
-			render();
-
-			// -> nun wieder animieren wenn die Elemente in den Viewport kommen
-			setTimeout(function() {
-				node.classList.remove('ce-history--static');
-			}, 100);
+			onInitialize();
 
 			// 2. beim Scrollen
 			window.addEventListener('scroll', onScrolling);
