@@ -55,13 +55,13 @@ $ce-history--layout-default: true !default;
 			color: $theme-color-secondary;
 			opacity: 0;
 			transform: translate(75px, 0);
-			transition: all 0.75s;
+			transition: all ease-out 0.45s;
 		}
 
 		.ce-history-item__content {
 			opacity: 0;
 			transform: translate(75px, 0);
-			transition: all 0.75s 0.075s;
+			transition: all 0.45s ease-out 0.045s;
 		}
 
 		.ce-history-item__title {
@@ -116,13 +116,35 @@ $ce-history--layout-default: true !default;
 		}
 
 		// -------------------------------------------------------------------------------------------------------------------
-		// >= 768px
-		@include media-breakpoint-up(md) {
-		}
-
-		// -------------------------------------------------------------------------------------------------------------------
 		// >= 992px
 		@include media-breakpoint-up(lg) {
+			.ce-history__indicator {
+				left: rem(125px);
+			}
+
+			.ce-history-item {
+				& {
+					display: flex;
+					padding: rem(10px 0 0 0);
+				}
+
+				&:before {
+					left: rem(118px);
+				}
+			}
+
+			.ce-history-item__date {
+				width: rem(100px);
+				transform: translate(-75px, 0);
+				font-size: rem(28px);
+			}
+
+			.ce-history-item__content {
+				flex: 1;
+				padding: rem(0 0 0 70px);
+			}
+
+
 		}
 	}
 }
